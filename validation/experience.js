@@ -13,11 +13,11 @@ module.exports = function validateLoginInput(data) {
   }
 
   if (Validator.isEmpty(data.company)) {
-    errors.company = 'Company title field is requried';
+    errors.company = 'Company field is requried';
   }
 
   if (Validator.isEmpty(data.from)) {
-    errors.from = 'From date title field is requried';
+    errors.from = 'From date field is requried';
   }
 
   return {
