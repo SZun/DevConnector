@@ -106,9 +106,9 @@ router.get(
   '/current',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    const { _id, name, email } = req.user;
+    const { id, name, email } = req.user;
     res.json({
-      _id,
+      id,
       name,
       email
     });

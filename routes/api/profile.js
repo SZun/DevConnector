@@ -22,7 +22,7 @@ router.get(
   (req, res) => {
     const errors = {};
 
-    Profile.findOne({ user: req.user._id })
+    Profile.findOne({ user: req.user.id })
       .populate('user', ['name', 'avatar'])
       .then(profile => {
         if (!profile) {
@@ -70,12 +70,12 @@ router.get('/handle/:handle', (req, res) => {
     .catch(err => res.status(404).json(err));
 });
 
-// @route Post api/profile/user/:user_id
+// @route Post api/profile/user/:userid
 // @desc Get profile by user ID
 // @access Public
-router.get('/user/:user_id', (req, res) => {
+router.get('/user/:userid', (req, res) => {
   const errors = {};
-  Profile.findOne({ user: req.params.user_id })
+  Profile.findOne({ user: req.params.userid })
     .populate('user', ['name', 'avatar'])
     .then(profile => {
       if (!profile) {
@@ -105,7 +105,7 @@ router.post(
 
     // Get fields
     const profileFields = {};
-    profileFields.user = req.user._id;
+    profileFields.user = req.user.id;
     if (req.body.handle) profileFields.handle = req.body.handle;
     if (req.body.company) profileFields.company = req.body.company;
     if (req.body.website) profileFields.website = req.body.website;
@@ -126,11 +126,11 @@ router.post(
     if (req.body.facebook) profileFields.social.facebook = req.body.facebook;
     if (req.body.instagram) profileFields.social.instagram = req.body.instagram;
 
-    Profile.findOne({ user: req.user._id }).then(profile => {
+    Profile.findOne({ user: req.user.id }).then(profile => {
       if (profile) {
         // Update
         Profile.findOneAndUpdate(
-          { user: req.user._id },
+          { user: req.user.id },
           { $set: profileFields },
           { new: true }
         ).then(profile => res.json(profile));
@@ -230,7 +230,7 @@ router.delete(
         // Get remove index
         const removeIndex = profile.education
           .map(item => item.id)
-          .indexOf(req.params.edu_id);
+          .indexOf(req.params.eduid);
 
         // Splice out of array
         profile.education.splice(removeIndex, 1);
@@ -254,7 +254,7 @@ router.delete(
         // Get remove index
         const removeIndex = profile.experience
           .map(item => item.id)
-          .indexOf(req.params.exp_id);
+          .indexOf(req.params.expid);
 
         // Splice out of array
         profile.experience.splice(removeIndex, 1);
@@ -273,8 +273,8 @@ router.delete(
   '/',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    Profile.findOneAndRemove({ user: req.user._id }).then(() => {
-      User.findOneAndRemove({ _id: req.user._id }).then(
+    Profile.findOneAndRemove({ user: req.user.id }).then(() => {
+      User.findOneAndRemove({ id: req.user.id }).then(
         res.json({ success: true })
       );
     });
