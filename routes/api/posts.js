@@ -3,25 +3,50 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const passport = require('passport');
 
-// Post Model
-const Post = require('../../models/Posts');
-
-// Profile Model
+// Post model
+const Post = require('../../models/Post');
+// Profile model
 const Profile = require('../../models/Profile');
 
 // Validation
 const validatePostInput = require('../../validation/post');
 
-// @route POST api/posts
-// @desc Create Post
-// @access Private
+// @route   GET api/posts/test
+// @desc    Tests post route
+// @access  Public
+router.get('/test', (req, res) => res.json({ msg: 'Posts Works' }));
+
+// @route   GET api/posts
+// @desc    Get posts
+// @access  Public
+router.get('/', (req, res) => {
+  Post.find()
+    .sort({ date: -1 })
+    .then(posts => res.json(posts))
+    .catch(err => res.status(404).json({ nopostsfound: 'No posts found' }));
+});
+
+// @route   GET api/posts/:id
+// @desc    Get post by id
+// @access  Public
+router.get('/:id', (req, res) => {
+  Post.findById(req.params.id)
+    .then(post => res.json(post))
+    .catch(err =>
+      res.status(404).json({ nopostfound: 'No post found with that ID' })
+    );
+});
+
+// @route   POST api/posts
+// @desc    Create post
+// @access  Private
 router.post(
   '/',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const { errors, isValid } = validatePostInput(req.body);
 
-    // Check validation
+    // Check Validation
     if (!isValid) {
       // If any errors, send 400 with errors object
       return res.status(400).json(errors);
@@ -38,31 +63,9 @@ router.post(
   }
 );
 
-// @route GET api/posts
-// @desc Get Posts
-// @access Public
-router.get('/', (req, res) => {
-  Post.find()
-    .sort({ date: -1 })
-    .then(posts => res.json(posts))
-    .catch(err => res.status(404).json({ nopostsfounds: 'No posts found' }));
-});
-
-// @route GET api/posts/:id
-// @desc Get Post by id
-// @access Public
-router.get('/:id', (req, res) => {
-  Post.findById(req.params.id)
-    .sort({ date: -1 })
-    .then(post => res.json(post))
-    .catch(err =>
-      res.status(404).json({ nopostfounds: 'No post found with that id' })
-    );
-});
-
-// @route DELETE api/posts/:id
-// @desc DELETE Post by id
-// @access Private
+// @route   DELETE api/posts/:id
+// @desc    Delete post
+// @access  Private
 router.delete(
   '/:id',
   passport.authenticate('jwt', { session: false }),
@@ -85,9 +88,9 @@ router.delete(
   }
 );
 
-// @route POST api/posts/like/:id
-// @desc Like post
-// @access Private
+// @route   POST api/posts/like/:id
+// @desc    Like post
+// @access  Private
 router.post(
   '/like/:id',
   passport.authenticate('jwt', { session: false }),
@@ -114,9 +117,9 @@ router.post(
   }
 );
 
-// @route POST api/posts/unlike/:id
-// @desc Unlike post
-// @access Private
+// @route   POST api/posts/unlike/:id
+// @desc    Unlike post
+// @access  Private
 router.post(
   '/unlike/:id',
   passport.authenticate('jwt', { session: false }),
@@ -149,16 +152,16 @@ router.post(
   }
 );
 
-// @route POST api/posts/comment/:id
-// @desc Add comment to post
-// @access Private
+// @route   POST api/posts/comment/:id
+// @desc    Add comment to post
+// @access  Private
 router.post(
   '/comment/:id',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const { errors, isValid } = validatePostInput(req.body);
 
-    // Check validation
+    // Check Validation
     if (!isValid) {
       // If any errors, send 400 with errors object
       return res.status(400).json(errors);
@@ -173,7 +176,7 @@ router.post(
           user: req.user.id
         };
 
-        // Add comments to array
+        // Add to comments array
         post.comments.unshift(newComment);
 
         // Save
@@ -183,9 +186,9 @@ router.post(
   }
 );
 
-// @route DELETE api/posts/comment/:id/:comment_id
-// @desc Delete a comment to post
-// @access Private
+// @route   DELETE api/posts/comment/:id/:comment_id
+// @desc    Remove comment from post
+// @access  Private
 router.delete(
   '/comment/:id/:comment_id',
   passport.authenticate('jwt', { session: false }),
@@ -210,7 +213,7 @@ router.delete(
 
         // Splice comment out of array
         post.comments.splice(removeIndex, 1);
-        // Save
+
         post.save().then(post => res.json(post));
       })
       .catch(err => res.status(404).json({ postnotfound: 'No post found' }));
