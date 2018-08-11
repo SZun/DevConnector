@@ -86,6 +86,7 @@ class Login extends Component {
                     value={inpt.value}
                     onChange={this.onChange}
                     error={inpt.error}
+                    key={inpt.nameAndType}
                   />
                 ))}
                 <input type="submit" className="btn btn-info btn-block mt-4" />
