@@ -222,7 +222,7 @@ router.post(
 // @desc Delete education from profile
 // @access Private
 router.delete(
-  '/education/:edu:id',
+  '/education/:edu_id',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Profile.findOne({ user: req.user.id })

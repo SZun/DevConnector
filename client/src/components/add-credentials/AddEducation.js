@@ -146,7 +146,7 @@ class AddEducation extends Component {
                     id="current"
                   />
                   <label htmlFor="current" className="form-check-label">
-                    Program
+                    Current
                   </label>
                 </div>
                 <TextAreaFieldGroup
