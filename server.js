@@ -37,11 +37,17 @@ app.use('/api/profile', profile);
 app.use('/api/posts', posts);
 
 // Serve static assets if in production
-if (process.env.NODE_ENV === 'production') {
+try {
   app.use(express.static('client/build'));
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    if (process.env.NODE_ENV === 'production') {
+      res.sendFile(__dirname + '/client/build/index.html');
+    } else {
+      res.sendFile(__dirname + '/../client/public/index.html');
+    }
   });
+} catch (err) {
+  console.log(`Error: ${err.message}`);
 }
 
 const port = process.env.PORT || 5000;
