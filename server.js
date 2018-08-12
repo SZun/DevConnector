@@ -18,10 +18,12 @@ app.use(bodyParser.json());
 const db = require('./config/keys').mongoURI;
 
 // Connect to MongoDB
-mongoose
-  .connect(db)
-  .then(console.log('MongoDB Connected'))
-  .catch(err => console.log(`Error: ${err.message}`));
+try {
+  mongoose.connect(db);
+  console.log('MongoDB Connected');
+} catch (err) {
+  console.log(`Error: ${err.message}`);
+}
 
 // Passport Middlware
 app.use(passport.initialize());
