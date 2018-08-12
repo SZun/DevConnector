@@ -38,13 +38,10 @@ app.use('/api/posts', posts);
 
 // Serve static assets if in production
 try {
+  // Set static folder
   app.use(express.static('client/build'));
   app.get('*', (req, res) => {
-    if (process.env.NODE_ENV === 'production') {
-      res.sendFile(__dirname + '/client/build/index.html');
-    } else {
-      res.sendFile(__dirname + '/../client/public/index.html');
-    }
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   });
 } catch (err) {
   console.log(`Error: ${err.message}`);
