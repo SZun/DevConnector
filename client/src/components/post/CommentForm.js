@@ -40,7 +40,6 @@ class CommentForm extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
-      console.log(nextProps.errors);
       this.setState({ errors: nextProps.errors });
     }
   }
