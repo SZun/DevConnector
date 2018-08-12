@@ -1,4 +1,5 @@
 node_modules/
 .DS_Store
 package-lock.json
-keys.js
+keys_dev.js
+/config/keys_dev.js
