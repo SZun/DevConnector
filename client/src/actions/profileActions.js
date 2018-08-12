@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import {
   GET_PROFILE,
+  GET_PROFILES,
   PROFILE_LOADING,
   CLEAR_CURRENT_PROFILE,
   GET_ERRORS,
@@ -12,17 +13,36 @@ import {
 export const getCurrentProfile = () => dispatch => {
   dispatch(setProfileLoading());
   axios
-    .get('api/profile')
+    .get('/api/profile')
     .then(res =>
       dispatch({
         type: GET_PROFILE,
         payload: res.data
       })
     )
-    .catch(
+    .catch(err =>
       dispatch({
         type: GET_PROFILE,
         payload: {}
+      })
+    );
+};
+
+// Get profile by handle
+export const getProfileByHandle = handle => dispatch => {
+  dispatch(setProfileLoading());
+  axios
+    .get(`/api/profile/handle/${handle}`)
+    .then(res =>
+      dispatch({
+        type: GET_PROFILE,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_PROFILE,
+        payload: null
       })
     );
 };
@@ -38,20 +58,6 @@ export const createProfile = (profileData, history) => dispatch => {
         payload: err.response.data
       })
     );
-};
-
-// Profile loading
-export const clearCurrentProfile = () => {
-  return {
-    type: CLEAR_CURRENT_PROFILE
-  };
-};
-
-// Clear loading
-export const setProfileLoading = () => {
-  return {
-    type: PROFILE_LOADING
-  };
 };
 
 // Add experience
@@ -98,7 +104,7 @@ export const deleteExperience = id => dispatch => {
     );
 };
 
-// Delete Experience
+// Delete Education
 export const deleteEducation = id => dispatch => {
   axios
     .delete(`/api/profile/education/${id}`)
@@ -116,7 +122,26 @@ export const deleteEducation = id => dispatch => {
     );
 };
 
-// Delete Account and Profile
+// Get all profiles
+export const getProfiles = () => dispatch => {
+  dispatch(setProfileLoading());
+  axios
+    .get('/api/profile/all')
+    .then(res =>
+      dispatch({
+        type: GET_PROFILES,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_PROFILES,
+        payload: null
+      })
+    );
+};
+
+// Delete account & profile
 export const deleteAccount = () => dispatch => {
   if (window.confirm('Are you sure? This can NOT be undone!')) {
     axios
@@ -134,4 +159,18 @@ export const deleteAccount = () => dispatch => {
         })
       );
   }
+};
+
+// Profile loading
+export const setProfileLoading = () => {
+  return {
+    type: PROFILE_LOADING
+  };
+};
+
+// Clear profile
+export const clearCurrentProfile = () => {
+  return {
+    type: CLEAR_CURRENT_PROFILE
+  };
 };
