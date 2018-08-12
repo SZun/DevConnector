@@ -1,7 +1,11 @@
 {
-  "name": "Basic_Express_Setup",
+  "name": "DevConnector",
   "version": "1.0.0",
-  "description": "",
+  "description": "A social media site for developers",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SZun/DevConnector"
+  },
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
