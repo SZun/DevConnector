@@ -44,10 +44,6 @@ const EditProfile = asyncComponent(() => {
   return import('./components/edit-profile/EditProfile');
 });
 
-const EditProfile = asyncComponent(() => {
-  return import('./components/edit-profile/EditProfile');
-});
-
 const AddExperience = asyncComponent(() => {
   return import('./components/add-credentials/AddExperience');
 });
