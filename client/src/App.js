@@ -4,29 +4,77 @@ import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
 import { setCurrentUser, logoutUser } from './actions/authActions';
 import { clearCurrentProfile } from './actions/profileActions';
+import asyncComponent from './asyncComponent';
 
 import { Provider } from 'react-redux';
 import store from './store';
 
 import PrivateRoute from './components/common/PrivateRoute';
-
-import Navbar from './components/Layout/Navbar';
-import Footer from './components/Layout/Footer';
-import Landing from './components/Layout/Landing';
-import Register from './components/auth/Register';
-import Login from './components/auth/Login';
-import Dashboard from './components/dashboard/Dashboard';
-import CreateProfile from './components/Create-Profile/CreateProfile';
-import EditProfile from './components/edit-profile/EditProfile';
-import AddExperience from './components/add-credentials/AddExperience';
-import AddEducation from './components/add-credentials/AddEducation';
-import Profiles from './components/profiles/Profiles';
-import Profile from './components/profile/Profile';
-import NotFound from './components/notfound/NotFound';
-import Posts from './components/posts/Posts';
-import Post from './components/post/Post';
-
 import './App.css';
+
+const Navbar = asyncComponent(() => {
+  return import('./components/Layout/Navbar');
+});
+
+const Footer = asyncComponent(() => {
+  return import('./components/Layout/Footer');
+});
+
+const Landing = asyncComponent(() => {
+  return import('./components/Layout/Landing');
+});
+
+const Register = asyncComponent(() => {
+  return import('./components/auth/Register');
+});
+
+const Login = asyncComponent(() => {
+  return import('./components/auth/Login');
+});
+
+const Dashboard = asyncComponent(() => {
+  return import('./components/dashboard/Dashboard');
+});
+
+const CreateProfile = asyncComponent(() => {
+  return import('./components/Create-Profile/CreateProfile');
+});
+
+const EditProfile = asyncComponent(() => {
+  return import('./components/edit-profile/EditProfile');
+});
+
+const EditProfile = asyncComponent(() => {
+  return import('./components/edit-profile/EditProfile');
+});
+
+const AddExperience = asyncComponent(() => {
+  return import('./components/add-credentials/AddExperience');
+});
+
+const AddEducation = asyncComponent(() => {
+  return import('./components/add-credentials/AddEducation');
+});
+
+const Profiles = asyncComponent(() => {
+  return import('./components/profiles/Profiles');
+});
+
+const Profile = asyncComponent(() => {
+  return import('./components/profile/Profile');
+});
+
+const NotFound = asyncComponent(() => {
+  return import('./components/notfound/NotFound');
+});
+
+const Posts = asyncComponent(() => {
+  return import('./components/posts/Posts');
+});
+
+const Post = asyncComponent(() => {
+  return import('./components/post/Post');
+});
 
 // Check for toekn
 if (localStorage.jwtToken) {
