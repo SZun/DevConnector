@@ -59,6 +59,7 @@ git push heroku master
 - [Validator](https://www.npmjs.com/package/validator) - Custom Validation
 - [React Moment](https://www.npmjs.com/package/react-moment) - Date Parsing
 - [Gravatar](https://en.gravatar.com/) - Profile Image Manager
+- [Github API](https://developer.github.com/v3/) - Profile Image Manager
 
 ## Authors
 
